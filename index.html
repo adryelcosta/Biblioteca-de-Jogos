@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameVerse - Biblioteca Flutuante</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <div class="header-content">
+            <h1>🎮 Games Colection</h1>
+            <button id="btn-open-library" class="btn-primary">🎒 Ver Minha Caixa (<span id="library-count">0</span>)</button>
+        </div>
+        <p>Organizando sua coleção pessoal de jogos!</p>
+    </header>
+
+    <main class="container">
+        <section class="section-box">
+            <h2>🔍 Buscar Jogo</h2>
+            <form id="search-form" class="search-box">
+                <input type="text" id="search-input" placeholder="Digite o nome de um jogo..." required>
+                <button type="submit">Pesquisar</button>
+            </form>
+            <div id="message-area" class="message"></div>
+            <div id="games-container" class="games-grid"></div>
+        </section>
+    </main>
+
+    <div id="library-sidebar" class="sidebar hidden">
+        <div class="sidebar-content">
+            <div class="sidebar-header">
+                <h2>📚 Minha Caixa de Jogos</h2>
+                <button id="btn-close-sidebar" class="btn-close">&times;</button>
+            </div>
+            
+            <div class="sidebar-filters">
+                <button class="btn-filter btn-all" onclick="window.filtrarPorStatus('Todos')">🌐 Todos</button>
+                <button class="btn-filter btn-want" onclick="window.filtrarPorStatus('Quero Jogar')">🎯 Quero</button>
+                <button class="btn-filter btn-playing" onclick="window.filtrarPorStatus('Jogando')">🕹️ Jogando</button>
+                <button class="btn-filter btn-done" onclick="window.filtrarPorStatus('Zerado')">🏆 Zerado</button>
+            </div>
+
+            <div id="library-container" class="sidebar-grid"></div>
+        </div>
+    </div>
+
+    <div id="edit-modal" class="modal hidden">
+        <div class="modal-content">
+            <h3>Editar Jogo</h3>
+            <form id="edit-form">
+                <input type="hidden" id="edit-id">
+                
+                <label for="edit-title">Título:</label>
+                <input type="text" id="edit-title" required>
+
+                <label for="edit-status">Status:</label>
+                <select id="edit-status">
+                    <option value="Quero Jogar">🎯 Quero Jogar</option>
+                    <option value="Jogando">🕹️ Jogando</option>
+                    <option value="Zerado">🏆 Zerado</option>
+                </select>
+
+                <label for="edit-synopsis">Sinopse / Anotações:</label>
+                <textarea id="edit-synopsis" rows="4" placeholder="Escreva algo sobre o jogo..."></textarea>
+
+                <div class="modal-actions">
+                    <button type="submit" class="btn-save">Salvar Alterações</button>
+                    <button type="button" id="btn-close-modal" class="btn-cancel">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="confirm-modal" class="modal hidden">
+        <div class="modal-content text-center">
+            <span style="font-size: 3rem;">🗑️</span>
+            <h3>Remover Jogo?</h3>
+            <p>Tem certeza que deseja deletar este jogo da sua coleção pessoal?</p>
+            <div class="modal-actions">
+                <button id="btn-confirm-yes" class="btn-delete">Sim, Deletar</button>
+                <button id="btn-confirm-no" class="btn-cancel">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="details-modal" class="modal hidden">
+        <div class="modal-content" style="max-width: 600px;">
+            <div id="details-content"></div>
+            <div class="modal-actions" style="margin-top: 15px;">
+                <button type="button" id="btn-close-details" class="btn-cancel">Fechar Detalhes</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Adryel Costa Santos</p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>

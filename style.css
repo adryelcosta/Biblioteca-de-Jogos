@@ -1,0 +1,212 @@
+/* ==========================================================================
+   1. RESET, CONFIGURAÇÕES GERAIS E LAYOUT BASE
+   ========================================================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+body {
+    background-color: #1a1a1a;
+    color: #f5f5f5;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+/* Cabeçalho e Rodapé */
+header, footer {
+    background-color: #111;
+    padding: 2rem 1rem;
+}
+
+.header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+header h1 { color: #6c5ce7; font-size: 2.2rem; }
+header p { text-align: center; color: #aaa; margin-top: 0.5rem; }
+footer { margin-top: auto; text-align: center; color: #555; }
+
+/* Blocos de Conteúdo */
+.section-box h2 { 
+    margin-bottom: 1.5rem; 
+    color: #a29bfe; 
+    border-left: 5px solid #6c5ce7; 
+    padding-left: 10px; 
+}
+
+.hidden { display: none !important; }
+.message { text-align: center; margin: 1rem 0; color: #ffeaa7; }
+
+/* ==========================================================================
+   2. INTERFACES DE BUSCA E GRIDS (RESULTADOS DA API)
+   ========================================================================== */
+.search-box { display: flex; gap: 10px; margin-bottom: 1.5rem; }
+.search-box input { flex: 1; padding: 0.8rem; background: #2d2d2d; border: 1px solid #444; color: #fff; border-radius: 5px; }
+
+.games-grid { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); 
+    gap: 1.5rem; 
+}
+
+/* ==========================================================================
+   3. ELEMENTOS VISUAIS: CARDS DE JOGOS E BADGES
+   ========================================================================== */
+.game-card { 
+    background: #252525; 
+    border-radius: 8px; 
+    overflow: hidden; 
+    display: flex; 
+    flex-direction: column; 
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3); 
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.game-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 15px rgba(108, 92, 231, 0.25);
+}
+
+.game-thumb { width: 100%; height: 140px; object-fit: cover; }
+.game-info { padding: 1rem; display: flex; flex-direction: column; flex-grow: 1; gap: 8px; }
+.game-info h3 { font-size: 1.1rem; color: #fff; }
+.game-info p { font-size: 0.85rem; color: #aaa; }
+
+/* Badges de Status do CRUD (Cor do Quero alterada para Laranja Gamer) */
+.status-badge { display: inline-block; padding: 0.2rem 0.5rem; border-radius: 4px; font-weight: bold; font-size: 0.75rem; width: fit-content; color: #fff; }
+.status-queto { background-color: #e67e22; }
+.status-jogando { background-color: #0984e3; }
+.status-zerado { background-color: #00b894; }
+
+/* ==========================================================================
+   4. BOTÕES E COMPONENTES DE AÇÃO
+   ========================================================================== */
+.btn-primary, .search-box button { padding: 0.8rem 1.5rem; background: #6c5ce7; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+.btn-primary:hover, .search-box button:hover { background: #5b4cc4; }
+
+.btn-add { padding: 0.8rem 1.5rem; background: #2ecc71; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; width: 100%; margin-top: auto; transition: 0.2s; }
+.btn-add:hover { background: #27ae60; }
+
+.crud-actions { display: flex; gap: 5px; margin-top: 10px; }
+.btn-edit { background: #f39c12; color: white; border: none; padding: 0.4rem; border-radius: 4px; cursor: pointer; flex: 1; font-size: 0.85rem; font-weight: bold; }
+.btn-delete { background: #c0392b; color: white; border: none; padding: 0.4rem; border-radius: 4px; cursor: pointer; flex: 1; font-size: 0.85rem; font-weight: bold; }
+
+/* ==========================================================================
+   5. GAVETA LATERAL (SIDEBAR) E FILTROS PREMIUM COM GLOW
+   ========================================================================== */
+.sidebar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 400px;
+    height: 100%;
+    background-color: #222;
+    box-shadow: -5px 0 25px rgba(0,0,0,0.7);
+    z-index: 1500;
+    transition: transform 0.3s ease-in-out;
+    overflow-y: auto;
+}
+
+.sidebar.hidden { transform: translateX(100%); }
+.sidebar-content { padding: 1.5rem; }
+.sidebar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; border-bottom: 1px solid #333; padding-bottom: 10px; }
+.sidebar-header h2 { color: #a29bfe; font-size: 1.4rem; }
+.sidebar-grid { display: flex; flex-direction: column; gap: 1rem; }
+
+.btn-close { background: none; border: none; color: #aaa; font-size: 2rem; cursor: pointer; transition: color 0.2s; }
+.btn-close:hover { color: #fff; }
+
+/* Contêiner de Filtros da Sidebar */
+.sidebar-filters {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    background-color: #1a1a1a;
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid #333;
+}
+
+/* Botões de Filtro com Efeito Neon (Glow) */
+.btn-filter {
+    flex: 1;
+    min-width: 75px;
+    padding: 0.5rem 0.6rem;
+    font-size: 0.8rem;
+    color: #e1e1e6;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    transition: all 0.2s ease;
+}
+
+.btn-all { background-color: #2d2d2d; border-color: #444; }
+.btn-all:hover { background-color: #6c5ce7; border-color: #a499ff; box-shadow: 0 0 10px rgba(108, 92, 231, 0.5); }
+
+/* Tema de Glow Laranja Suave para o botão Quero (🎯) */
+.btn-want { background-color: rgba(230, 126, 34, 0.15); border-color: rgba(230, 126, 34, 0.4); color: #f39c12; }
+.btn-want:hover { background-color: #e67e22; color: #fff; box-shadow: 0 0 10px rgba(230, 126, 34, 0.5); }
+
+.btn-playing { background-color: rgba(9, 132, 227, 0.15); border-color: rgba(9, 132, 227, 0.4); color: #74b9ff; }
+.btn-playing:hover { background-color: #0984e3; color: #fff; box-shadow: 0 0 10px rgba(9, 132, 227, 0.5); }
+
+.btn-done { background-color: rgba(0, 184, 148, 0.15); border-color: rgba(0, 184, 148, 0.4); color: #55efc4; }
+.btn-done:hover { background-color: #00b894; color: #fff; box-shadow: 0 0 10px rgba(0, 184, 148, 0.5); }
+
+/* ==========================================================================
+   6. COMPONENTES DE SOBREPOSIÇÃO: INTERFACES MODAIS
+   ========================================================================== */
+.modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: flex; justify-content: center; align-items: center; z-index: 2000; }
+.modal-content { background: #2d2d2d; padding: 2rem; border-radius: 8px; width: 90%; max-width: 500px; display: flex; flex-direction: column; gap: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
+.modal-content input, .modal-content select, .modal-content textarea { width: 100%; padding: 0.7rem; background: #1a1a1a; border: 1px solid #444; color: white; border-radius: 4px; margin-top: 5px; }
+
+.modal-actions { display: flex; gap: 10px; margin-top: 15px; }
+.btn-save { background: #2ecc71; color: white; border: none; padding: 0.7rem; border-radius: 4px; cursor: pointer; flex: 1; font-weight: bold; }
+.btn-save:hover { background: #27ae60; }
+.btn-cancel { background: #95a5a6; color: white; border: none; padding: 0.7rem; border-radius: 4px; cursor: pointer; flex: 1; font-weight: bold; }
+.btn-cancel:hover { background: #7f8c8d; }
+
+/* ==========================================================================
+   7. SISTEMA DE NOTIFICAÇÕES (TOASTS) E ANIMAÇÕES
+   ========================================================================== */
+.toast-container { position: fixed; top: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; }
+.toast { background: #252525; color: #fff; padding: 1rem 1.5rem; border-radius: 6px; box-shadow: 0 0 15px rgba(108, 92, 231, 0.4); border-left: 5px solid #6c5ce7; font-weight: bold; display: flex; align-items: center; gap: 10px; min-width: 280px; animation: slideIn 0.3s ease forwards; }
+.toast.toast-warning { border-left-color: #d63031; box-shadow: 0 0 15px rgba(214, 48, 49, 0.4); }
+
+@keyframes slideIn {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+@keyframes fadeOut {
+    to { transform: translateY(-10px); opacity: 0; }
+}
+
+/* RESPONSIVIDADE */
+@media (max-width: 480px) {
+    .header-content { flex-direction: column; text-align: center; }
+    .search-box { flex-direction: column; }
+    .sidebar { width: 100%; }
+}
