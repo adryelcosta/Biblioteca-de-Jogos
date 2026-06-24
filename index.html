@@ -8,6 +8,7 @@
 </head>
 <body>
 
+    <!-- CABEÇALHO PRINCIPAL -->
     <header>
         <div class="header-content">
             <h1>🎮 Games Colection</h1>
@@ -16,6 +17,7 @@
         <p>Organizando sua coleção pessoal de jogos!</p>
     </header>
 
+    <!-- ÁREA PRINCIPAL: BUSCA NA API -->
     <main class="container">
         <section class="section-box">
             <h2>🔍 Buscar Jogo</h2>
@@ -28,6 +30,7 @@
         </section>
     </main>
 
+    <!-- GAVETA LATERAL (SIDEBAR DA BIBLIOTECA) -->
     <div id="library-sidebar" class="sidebar hidden">
         <div class="sidebar-content">
             <div class="sidebar-header">
@@ -35,6 +38,7 @@
                 <button id="btn-close-sidebar" class="btn-close">&times;</button>
             </div>
             
+            <!-- Barra de Filtros por Categoria -->
             <div class="sidebar-filters">
                 <button class="btn-filter btn-all" onclick="window.filtrarPorStatus('Todos')">🌐 Todos</button>
                 <button class="btn-filter btn-want" onclick="window.filtrarPorStatus('Quero Jogar')">🎯 Quero</button>
@@ -46,6 +50,7 @@
         </div>
     </div>
 
+    <!-- COMPONENTE: MODAL DE EDIÇÃO DO CRUD (CAMPOS PROTEGIDOS ATUALIZADOS) -->
     <div id="edit-modal" class="modal hidden">
         <div class="modal-content">
             <h3>Editar Jogo</h3>
@@ -53,7 +58,8 @@
                 <input type="hidden" id="edit-id">
                 
                 <label for="edit-title">Título:</label>
-                <input type="text" id="edit-title" required>
+                <!-- Travado para edição com feedback visual diferenciado -->
+                <input type="text" id="edit-title" readonly style="background-color: #1a1a1a; color: #aaa; border-color: #333; cursor: not-allowed;">
 
                 <label for="edit-status">Status:</label>
                 <select id="edit-status">
@@ -63,7 +69,8 @@
                 </select>
 
                 <label for="edit-synopsis">Sinopse / Anotações:</label>
-                <textarea id="edit-synopsis" rows="4" placeholder="Escreva algo sobre o jogo..."></textarea>
+                <!-- Travado para edição com tamanho fixo e feedback visual diferenciado -->
+                <textarea id="edit-synopsis" rows="4" readonly style="background-color: #1a1a1a; color: #aaa; border-color: #333; cursor: not-allowed; resize: none;"></textarea>
 
                 <div class="modal-actions">
                     <button type="submit" class="btn-save">Salvar Alterações</button>
@@ -73,6 +80,7 @@
         </div>
     </div>
 
+    <!-- COMPONENTE: MODAL DE CONFIRMAÇÃO DE EXCLUSÃO -->
     <div id="confirm-modal" class="modal hidden">
         <div class="modal-content text-center">
             <span style="font-size: 3rem;">🗑️</span>
@@ -85,6 +93,7 @@
         </div>
     </div>
 
+    <!-- COMPONENTE: MODAL DE DETALHES (SINOPSE COMPLETA DA API) -->
     <div id="details-modal" class="modal hidden">
         <div class="modal-content" style="max-width: 600px;">
             <div id="details-content"></div>
@@ -94,6 +103,7 @@
         </div>
     </div>
 
+    <!-- RODAPÉ DA PÁGINA -->
     <footer>
         <p>Adryel Costa Santos</p>
     </footer>

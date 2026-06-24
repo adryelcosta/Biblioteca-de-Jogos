@@ -46,6 +46,7 @@ let myLibrary = JSON.parse(localStorage.getItem('myLibrary')) || [];
 document.addEventListener('DOMContentLoaded', () => {
     renderLibrary();
     updateBadgeCount();
+    carregarJogosDestaque(); // Carrega os jogos estáticos na tela inicial
 });
 
 // Ouvintes de Eventos: Abrir e Fechar Interface
@@ -69,22 +70,25 @@ function showToast(message, type = 'success') {
 
 // --- SEÇÃO 1: CONSUMO DA API (BUSCA E DETALHES) ---
 
-// Mecanismo de Busca com técnica Debounce (evita requisições excessivas enquanto digita)
+// Mecanismo de Busca com técnica Debounce
 searchInput.addEventListener('input', (e) => {
     clearTimeout(debounceTimer);
     const query = e.target.value.trim();
+    // Se o usuário limpar o campo, os jogos em destaque voltam de forma estática
+    if (!query) { carregarJogosDestaque(); return; }
     debounceTimer = setTimeout(() => fetchGames(query), 500);
 });
 
 searchForm.addEventListener('submit', (e) => {
     e.preventDefault();
     clearTimeout(debounceTimer);
-    fetchGames(searchInput.value.trim());
+    const query = searchInput.value.trim();
+    if (!query) { carregarJogosDestaque(); return; }
+    fetchGames(query);
 });
 
 // Requisição Assíncrona Primária: Busca listagem geral de jogos
 async function fetchGames(query) {
-    if (!query) { gamesContainer.innerHTML = ''; messageArea.textContent = ''; return; }
     gamesContainer.innerHTML = '';
     messageArea.textContent = 'Buscando jogos...';
 
@@ -123,7 +127,7 @@ async function fetchGames(query) {
     }
 }
 
-// Requisição Assíncrona Secundária: Traz dados detalhados (Sinopse Completa) para o Modal de Informações
+// Requisição Assíncrona Secundária: Traz dados detalhados (Sinopse Completa)
 window.verDetalhesJogo = async (gameId) => {
     try {
         const response = await fetch(`https://api.rawg.io/api/games/${gameId}?key=${API_KEY}`);
@@ -187,7 +191,7 @@ function renderLibrary() {
     ];
 
     statusGrupos.forEach(grupo => {
-        if (statusFiltroAtual !== 'Todos' && statusFiltroAtual !== grupo.chave) return;
+        if (statusFiltroAtual !== 'Todos' && statusFiltroAtual !== group.chave) return;
 
         const jogosDoGrupo = myLibrary.filter(game => game.status === grupo.chave);
         if (jogosDoGrupo.length > 0) {
@@ -228,7 +232,7 @@ window.filtrarPorStatus = (status) => {
     renderLibrary();
 };
 
-// 3. DELETE: Abre o modal customizado para confirmação de exclusão
+// 3. DELETE: Abre o modal de exclusão
 window.deleteGame = (id) => { idToExclude = id; confirmModal.classList.remove('hidden'); };
 
 btnConfirmYes.addEventListener('click', () => {
@@ -243,7 +247,7 @@ btnConfirmYes.addEventListener('click', () => {
 
 btnConfirmNo.addEventListener('click', () => { confirmModal.classList.add('hidden'); idToExclude = null; });
 
-// 4. UPDATE: Manipula os modais para edição de dados de texto e status
+// 4. UPDATE: Manipula os modais para exibição de dados e edição de status
 window.openEditModal = (id) => {
     const game = myLibrary.find(g => g.id === id);
     if (!game) return;
@@ -254,18 +258,74 @@ window.openEditModal = (id) => {
     editModal.classList.remove('hidden');
 };
 
+// Salva estritamente o Status alterado pelo usuário (titulo e sinopse são readonly)
 editForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const gameIndex = myLibrary.findIndex(g => g.id === editIdInput.value);
     if (gameIndex !== -1) {
-        myLibrary[gameIndex].title = editTitleInput.value;
         myLibrary[gameIndex].status = editStatusSelect.value;
-        myLibrary[gameIndex].synopsis = editSynopsisInput.value.trim() || 'Sem sinopse adicionada.';
         editModal.classList.add('hidden');
         saveAndRefresh();
-        showToast('Jogo atualizado com sucesso!');
+        showToast('Status do jogo updated com sucesso!');
     }
 });
+
+// --- SEÇÃO 3: JOGOS ESTÁTICOS EM DESTAQUE (IMAGENS HOSPEDADAS PERMANENTES) ---
+function carregarJogosDestaque() {
+    const jogosDestaque = [
+        { 
+            id: 3498, 
+            name: "Grand Theft Auto V", 
+            released: "2013-09-17", 
+            platforms: "PC, PlayStation, Xbox", 
+            background_image: "https://images.unsplash.com/photo-1551103782-8ab07afd45c1?w=500&auto=format&fit=crop&q=60" 
+        },
+        { 
+            id: 3328, 
+            name: "The Witcher 3: Wild Hunt", 
+            released: "2015-05-18", 
+            platforms: "PC, PlayStation, Xbox, Nintendo Switch", 
+            background_image: "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=500&auto=format&fit=crop&q=60" 
+        },
+        { 
+            id: 4200, 
+            name: "Portal 2", 
+            released: "2011-04-18", 
+            platforms: "PC, PlayStation, Xbox, Nintendo Switch", 
+            background_image: "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=500&auto=format&fit=crop&q=60" 
+        },
+        { 
+            id: 5286, 
+            name: "Tomb Raider (2013)", 
+            released: "2013-03-05", 
+            platforms: "PC, PlayStation, Xbox", 
+            background_image: "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=500&auto=format&fit=crop&q=60" 
+        }
+    ];
+
+    messageArea.innerHTML = '<h2 style="grid-column: 1/-1; color: #6c5ce7; margin-bottom: 1rem; font-size: 1.3rem; border-left: 4px solid #6c5ce7; padding-left: 8px; text-align: left;">🔥 Sugestões em Destaque</h2>';
+    gamesContainer.innerHTML = '';
+
+    jogosDestaque.forEach(game => {
+        const card = document.createElement('article');
+        card.className = 'game-card';
+        card.style.cursor = 'pointer';
+        card.innerHTML = `
+            <div onclick="window.verDetalhesJogo(${game.id})" style="flex-grow: 1; display: flex; flex-direction: column;">
+                <img class="game-thumb" src="${game.background_image}" alt="${game.name}">
+                <div class="game-info">
+                    <h3>${game.name}</h3>
+                    <p><strong>Lançamento:</strong> ${game.released}</p>
+                    <p><strong>Plataformas:</strong> ${game.platforms}</p>
+                </div>
+            </div>
+            <div style="padding: 0 1rem 1rem 1rem;">
+                <button class="btn-add" onclick="event.stopPropagation(); window.addGameToLibrary('${game.name.replace(/'/g, "\\'")}', '${game.background_image}', '${game.platforms}', ${game.id})">➕ Adicionar</button>
+            </div>
+        `;
+        gamesContainer.appendChild(card);
+    });
+}
 
 // --- FUNÇÕES AUXILIARES ---
 function saveAndRefresh() {
