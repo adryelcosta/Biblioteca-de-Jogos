@@ -1,6 +1,6 @@
-# 🎮 GameVerse - Biblioteca de Jogos
+# 🎮 Game Colection - Biblioteca de Jogos
 
-O **GameVerse** é uma aplicação web interativa e responsiva desenvolvida para amantes de videogames que desejam organizar e gerenciar sua coleção pessoal de jogos. A aplicação consome dados em tempo real da API pública **RAWG** e gerencia o inventário local do usuário através de um ciclo completo de **CRUD** persistido no navegador.
+O **Game Colection** é uma aplicação web interativa e responsiva desenvolvida para amantes de videogames que desejam organizar e gerenciar sua coleção pessoal de jogos. A aplicação consome dados em tempo real da API pública **RAWG** e gerencia o inventário local do usuário através de um ciclo completo de **CRUD** persistido no navegador.
 
 ---
 
