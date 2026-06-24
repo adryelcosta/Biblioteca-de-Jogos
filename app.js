@@ -191,7 +191,8 @@ function renderLibrary() {
     ];
 
     statusGrupos.forEach(grupo => {
-        if (statusFiltroAtual !== 'Todos' && statusFiltroAtual !== group.chave) return;
+        // CORRIGIDO: Corrigido de group.chave para grupo.chave para que o filtro funcione instantaneamente
+        if (statusFiltroAtual !== 'Todos' && statusFiltroAtual !== grupo.chave) return;
 
         const jogosDoGrupo = myLibrary.filter(game => game.status === grupo.chave);
         if (jogosDoGrupo.length > 0) {
@@ -266,7 +267,7 @@ editForm.addEventListener('submit', (e) => {
         myLibrary[gameIndex].status = editStatusSelect.value;
         editModal.classList.add('hidden');
         saveAndRefresh();
-        showToast('Status do jogo updated com sucesso!');
+        showToast('Status do jogo atualizado com sucesso!');
     }
 });
 
